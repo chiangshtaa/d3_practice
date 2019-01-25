@@ -12,6 +12,9 @@ let xScale = d3.scaleBand()
                .domain(d3.range(0, myData.length))
                .range([0, width])
 
+let colors = d3.scaleLinear()
+               .domain([0, myData.length])
+               .range(['#90ee90', '#30c230'])
 
 d3.select('#app')
   .append('svg')
@@ -22,7 +25,9 @@ d3.select('#app')
   .data(myData)
   .enter()
   .append('rect')
-  .style('fill', 'green')
+  .style('fill', function(d, i) {
+    return colors(i);
+  })
   .attr('width', xScale.bandwidth())
   .attr('height', function(d) {
     return yScale(d);
