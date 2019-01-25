@@ -1,8 +1,18 @@
 let myData = [100, 125, 320, 440, 500, 250, 710, 720, 320, 50, 475];
-let height = 500;
-let width = 500;
+
+
+let margin = {
+  top: 30,
+  right: 30,
+  bottom: 40,
+  left: 50
+}
+
+let height = 500 - margin.top - margin.bottom;
+let width = 500 - margin.left - margin.right;
 // let barWidth = 35;
 // let barOffset = 5;
+
 
 let tooltip = d3.select('body').append('div')
                 .style('position', 'absolute')
@@ -25,9 +35,12 @@ let colors = d3.scaleLinear()
                .range(['#90ee90', '#30c230'])
 
 let myChart = d3.select('#app').append('svg')
-    .attr('width', width)
-    .attr('height', height)
+    .attr('width', width + margin.right + margin.left)
+    .attr('height', height + margin.top + margin.bottom)
     .style('background', '#f4f4f4')
+    // this group element shifts each element in the bar graph over
+    .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
     .selectAll('rect')
       .data(myData)
       .enter()
@@ -80,7 +93,53 @@ myChart.transition()
        // .ease(d3.easeElastic)
 
 
+// axis and guides
 
+// vertical scale
+let vScale = d3.scaleLinear()
+               .domain([0, d3.max(myData)])
+               .range([height, 0])
+
+// horizontal scale
+let hScale = d3.scaleBand()
+               .domain(d3.range(0, myData.length))
+               .range([0, width])
+
+// V Axis
+let vAxis = d3.axisLeft()
+              .scale(vScale)
+              .ticks(5)
+              .tickPadding(5)
+
+// V Guide
+var vGuide = d3.select('svg')
+                .append('g') // group element
+                  .attr('transform', `translate(${margin.left}, ${margin.top})`)                  
+                    .call(vAxis);
+                  // .vAxis(vGuide)
+                  // vGuide.attr('transform', 'translate(35, 10)')
+                  // vGuide.selectAll('path')
+                  //   .style('fill', 'none')
+                  //   .style('stroke', '#000')
+                  // vGuide.selectAll('line')
+                  //   .style('stroke', '#000')
+
+// H Axis
+let hAxis = d3.axisBottom()
+              .scale(hScale)
+              .tickValues(hScale.domain().filter(function(d, i) {
+                // console.log(myData.length);
+                console.log(Math.floor((i % (myData.length / 6))));
+                return !Math.floor((i % (myData.length / 6)));
+                // return !(i % (myData.length / 6));
+              }))
+              // .tickPadding(5);
+
+// H Guide
+var hGuide = d3.select('svg')
+                .append('g') // group element
+                  .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
+                  .call(hAxis);
 
 
 
