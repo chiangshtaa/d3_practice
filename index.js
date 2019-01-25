@@ -24,7 +24,7 @@ let colors = d3.scaleLinear()
                .domain([0, myData.length])
                .range(['#90ee90', '#30c230'])
 
-d3.select('#app').append('svg')
+let myChart = d3.select('#app').append('svg')
     .attr('width', width)
     .attr('height', height)
     .style('background', '#f4f4f4')
@@ -36,14 +36,14 @@ d3.select('#app').append('svg')
           return colors(i);
         })
         .attr('width', xScale.bandwidth())
-        .attr('height', function(d) {
-          return yScale(d);
-        })
+        // .attr('height', function(d) {
+        //   return yScale(d);
+        // })
         .attr('x', function(d, i) {
           return xScale(i)
         })
         .attr('y', function(d) {
-          return height - yScale(d);
+          return height// - yScale(d);
         })
   .on('mouseover', function(d) {
     tooltip.transition()
@@ -62,6 +62,22 @@ d3.select('#app').append('svg')
     d3.select(this).style('opacity', 1);
   })
 
+let animationDuration = 700;
+let delayDuration = 30;
+
+myChart.transition()
+       .attr('height', function(d) {
+         return yScale(d);
+       })
+       .attr('y', function(d) {
+         return height - yScale(d);
+       })
+       .duration(animationDuration)
+       .delay(function(d, i) {
+         return i * delayDuration;
+       })
+       .ease(d3.easeBounce)
+       // .ease(d3.easeElastic)
 
 
 
@@ -82,7 +98,7 @@ d3.select('#app').append('svg')
 
 
 
-  
+
 
 
 
