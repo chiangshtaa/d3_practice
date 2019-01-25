@@ -1,5 +1,11 @@
-let myData = [100, 125, 320, 440, 500, 250, 710, 720, 320, 50, 475];
+// let myData = [100, 125, 320, 440, 500, 250, 710, 720, 320, 50, 475, 1000];
 
+let myData = [];
+let dataCount = 50;
+
+for (let i = 0; i < dataCount; i++) {
+  myData.push(Math.round(Math.random() * 1000));
+}
 
 let margin = {
   top: 30,
@@ -130,7 +136,7 @@ let hAxis = d3.axisBottom()
               .tickValues(hScale.domain().filter(function(d, i) {
                 // console.log(myData.length);
                 console.log(Math.floor((i % (myData.length / 6))));
-                return !Math.floor((i % (myData.length / 6)));
+                return !Math.floor((i % (myData.length / 10)));
                 // return !(i % (myData.length / 6));
               }))
               // .tickPadding(5);
