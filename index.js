@@ -1,7 +1,7 @@
 // let myData = [100, 125, 320, 440, 500, 250, 710, 720, 320, 50, 475, 1000];
 
 let myData = [];
-let dataCount = 50;
+let dataCount = 77;
 
 for (let i = 0; i < dataCount; i++) {
   myData.push(Math.round(Math.random() * 1000));
@@ -134,10 +134,9 @@ var vGuide = d3.select('svg')
 let hAxis = d3.axisBottom()
               .scale(hScale)
               .tickValues(hScale.domain().filter(function(d, i) {
-                // console.log(myData.length);
-                console.log(Math.floor((i % (myData.length / 6))));
-                return !Math.floor((i % (myData.length / 10)));
-                // return !(i % (myData.length / 6));
+                // console.log(Math.floor((i % (myData.length / 6))));
+                return !(i % Math.floor((myData.length / 10)));
+                // return !(i % (myData.length / 10));
               }))
               // .tickPadding(5);
 
